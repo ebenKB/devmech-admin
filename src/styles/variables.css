@@ -1,0 +1,10 @@
+:root {
+  --primary-color: #31E87A;
+  --secondary-color:#36FFBF;
+  --dev-dark: rgb(21, 32, 43);
+  --dev-secondary: #1da1f2;
+  --dev-black__light: #1b1b1b;
+  --dev-white: #fff;
+  --dev-gold: #FFAA21;
+  --main-bg: RGBA(245,245,245,1);
+}

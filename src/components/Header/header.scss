@@ -1,0 +1,15 @@
+.header {
+  padding: 20px;
+    background: rgba(22, 33, 43, 0.2);
+    border-bottom: 2px solid var(--dev-secondary);
+}
+
+.header h1 {
+  margin-block-start: 0;
+}
+
+.App.Dark {
+  .header {
+    color: white;
+  }
+}
