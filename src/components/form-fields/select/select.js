@@ -7,11 +7,12 @@ export const select = ({options, placeholder, value, handleChange}) => {
     <select className="ui dropdown" placeholder={placeholder} onChange={handleChange}>
       <option value="">Select an option</option>
       {
-        options.map((d) => {
-          return  <option value={d.id} key={d.id}>{d.name}</option>
-        })
+        options && options.map((d) => 
+          <option value={d.id} key={d.id}>{d.name}</option>
+        )
       }
     </select>
-  )
+  );
 }
+
 export default select

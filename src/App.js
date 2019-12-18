@@ -9,7 +9,7 @@ import Category from './pages/category/category';
 import SubCategory from './pages/subcategory/subcategory';
 import NewSubCategory from './pages/subcategory/new/new';
 import Footer from './components/footer/footer';
-import product from './pages/product/product';
+import productsPage from './pages/product/productsPage';
 import NewCategory from './pages/category/new/new';
 import NewProduct from './components/forms/NewProduct/newProduct';
 import Company from './pages/company/company';
@@ -32,7 +32,7 @@ function App() {
             <Route exact path="/categories/new" component={NewCategory}/>
             <Route exact path="/subcategory" component={SubCategory}/>
             <Route exact path={`/categories/:id/subcategory`} component={NewSubCategory}/>
-            <Route exact path="/products" component={product}/>
+            <Route exact path="/products" component={productsPage}/>
             <Route exact path="/products/new" component={NewProduct}/>
           </div>
           {/* <div>right content or help</div> */}

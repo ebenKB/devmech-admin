@@ -1,42 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import './newProduct.scss';
 import FormGroup from '../form-group/form-group';
-import axios from '../../../utils/axios/axios';
 import { Button } from 'semantic-ui-react';
 import FormSelect from '../../form-fields/select/select';
-import {Link} from 'react-router-dom';
+import { addProduct } from '../../../redux/products/products.actions';
+import { connect } from 'react-redux';
+import { getCategories } from '../../../redux/category/category.actions';
+import { getCategorySubcategories} from '../../../redux/category/category.actions';
 
-const NewProduct = (props) => {
-const options = [
-  {
-    name: 'hello',
-    id: 11,
-  },
-  {
-    name: 'thanks',
-    id: 1
-  }
-]
+const NewProduct = ({addProduct, categoryState, subCategoryState, getCategories, getCategorySubcategories}) => {
+  const {categories, categorySubCategories, loading} = categoryState;
 
-useEffect(() => {
-  axios.get('/categories')
-  .then((res) => {
-    const {data} = res;
-    console.log('This is the data', data);
-  });
-});
+  useEffect(() => {
+    getCategories();
+  }, []);
 
   let isLoading = false;
   const [product, updateProduct] = useState({
     name : '',
     sku : '',
     discount : 0.00,
-    price : 12.99,
+    price : 0.00,
     company_id : '1',
     product_type_id : 1,
-    sub_category_id : '1',
-    category_id : '1',
-    images: [
+    sub_category_id : null,
+    category_id : null,
+    images_attributes: [
       {
         url: 'https://media.debenhams.com/i/debenhams/23_10_19_womens_dresses_epsp_adspot_5?w=776&h=776&qlt=70&fmt=jpeg&v=1',
       },
@@ -45,7 +34,6 @@ useEffect(() => {
       },
     ]
   });
-
   const handleChange = (e) => {
     const {name, value} = e.target;
     updateProduct((oldState) => ({
@@ -56,23 +44,41 @@ useEffect(() => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    isLoading = true;
-    axios.post('/products', product)
-      .then((data) => {
-        console.log('We are done posting to the backend', data);
-        isLoading = false;
-        props.history.push('/products');
-      });
+    addProduct(product);
   }
 
-  const handleSelect =(e) => {
+  const didSelectCategory =(e) => {
     const id = e.target.value;
     if(id !== null) {
       updateProduct((oldState) => ({
         ...oldState,
        category_id: id,
       }));
+
+      // get the sub categories that are related to this category
+      getCategorySubcategories(id);
+    } else {
+      // clear the selection
+      updateProduct((oldState) => ({
+        ...oldState,
+       category_id: null,
+      }));
     }
+  }
+
+  const didSelectSubCategory = (e) => {
+    const id = e.target.value;
+    if(id !=null) {
+      updateProduct((oldState) => ({
+        ...oldState,
+        sub_category_id: id,
+      }));
+    }
+  }
+
+  const handleFiles = () => {
+    const files = document.getElementById('file').files;
+    console.log('we want to handle files', files)
   }
 
   return (
@@ -109,12 +115,22 @@ useEffect(() => {
             handleChange={handleChange}
           />
         </div>
+        <div className="m-t-20 m-b-20">
+          <input type="file" id="file" onChange={handleFiles} multiple/>
+        </div>
         <div className="m-t-20">
           <span className="m-r-20">Select a category</span>
           <FormSelect
-            options={options}
-            handleChange={handleSelect}
+            options={categories}
+            handleChange={didSelectCategory}
           />
+          {
+            (categorySubCategories != null && categorySubCategories.length > 0) && 
+            <FormSelect
+              options={categorySubCategories}
+              handleChange={didSelectSubCategory}
+            />
+          }
         </div>
         <div className="m-t-10 m-t-b-10">
           <Button primary className={isLoading ? 'ui loading button' : ''}>Submit</Button>
@@ -125,4 +141,18 @@ useEffect(() => {
   );
 }
 
-export default NewProduct
+const mapDispatchToProps = (dispatch) => (
+  {
+    addProduct : (product) => dispatch(addProduct(product)),
+    getCategories : () => dispatch(getCategories()),
+    getCategorySubcategories : (id) => dispatch(getCategorySubcategories(id)),
+  }
+);
+
+const mapStateToProps = (state) => (
+  {
+    categoryState : state.categoryState,
+  }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewProduct);
