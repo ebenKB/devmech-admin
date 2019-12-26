@@ -3,6 +3,8 @@ import { Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux'
 import { getAllProducts } from '../../redux/products/products.actions';
 
+import './products.scss';
+
 const Products = ( {productState : {products, loading }, getAllProducts}) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
@@ -21,7 +23,13 @@ const Products = ( {productState : {products, loading }, getAllProducts}) => {
           return (
             <div key={d.id} className="m-t-20 m-b-20">
               {d.name} 
-              <img src={d.image} alt=""/>
+              {
+                d.images.map((image) => 
+                <div className="img-caption">
+                  <img src={image.url} alt="avatar"/>
+                </div>
+                )
+              }
             </div>
           )
         })
