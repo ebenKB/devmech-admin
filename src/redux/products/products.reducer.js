@@ -33,7 +33,6 @@ const productReducer = (state = INITIAL_STATE, action) => {
         products: [...state.products, action.payload],
         loading: false
       }
-    
     default :
       return state;
   }
