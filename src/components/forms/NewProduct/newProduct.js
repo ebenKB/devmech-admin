@@ -17,7 +17,6 @@ const NewProduct = ({addProduct, categoryState, subCategoryState, getCategories,
   }, []);
 
   let isLoading = false;
-  let files = null;
   const [product, updateProduct] = useState({
     name : '',
     sku : '',
@@ -29,6 +28,11 @@ const NewProduct = ({addProduct, categoryState, subCategoryState, getCategories,
     category_id : null,
     images_attributes: []
   });
+
+  const [productFiles, updateFiles ] = useState({
+    files: null
+  });
+  
   const handleChange = (e) => {
     const {name, value} = e.target;
     updateProduct((oldState) => ({
@@ -39,7 +43,7 @@ const NewProduct = ({addProduct, categoryState, subCategoryState, getCategories,
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addProduct(product, files);
+    addProduct(product, productFiles.files);
   }
 
   const didSelectCategory =(e) => {
@@ -72,7 +76,9 @@ const NewProduct = ({addProduct, categoryState, subCategoryState, getCategories,
   }
 
   const handleFiles = () => {
-    files = document.getElementById('file').files;
+    updateFiles({
+      files : document.getElementById('file').files
+    }, console.log('these are files', productFiles.files));
   }
 
   // END S3 UPLOAD HERE -------------------------------------
@@ -138,7 +144,7 @@ const NewProduct = ({addProduct, categoryState, subCategoryState, getCategories,
 
 const mapDispatchToProps = (dispatch) => (
   {
-    addProduct : (product) => dispatch(addProduct(product)),
+    addProduct : (product, files) => dispatch(addProduct(product, files)),
     getCategories : () => dispatch(getCategories()),
     getCategorySubcategories : (id) => dispatch(getCategorySubcategories(id)),
   }

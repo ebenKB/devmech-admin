@@ -26,9 +26,11 @@ export const getAllProducts = () => async (dispatch) => {
 
 export const addProduct = (product, files) => async(dispatch) => {
   try {
+    // upload assets to s3
     const res = await s3Upload(files[0]);
-    product.image_attributes.push({url: res.location});
+    product.images_attributes.push({url: res.location});
     await axios.post('https://mech-api.herokuapp.com/api/v1/products', product);
+    
     // set loading 
     dispatch({
       type: productTypes.SET_LOADING,

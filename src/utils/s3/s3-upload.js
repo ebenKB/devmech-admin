@@ -4,8 +4,8 @@ const config = {
   bucketName: 'ebenkb',
   dirName: 'devmech', /* optional */
   region: 'us-east-2',
-  accessKeyId: 'AKIAQIYUIR3X4CTSAMPH',
-  secretAccessKey: '6PxAJKADeER2/PGdW6bis30WmgXftGOu58u2Cklf',
+  accessKeyId: process.env.accessKeyId,
+  secretAccessKey: process.env.secretAccessKey,
   // s3Url: 'https:/your-custom-s3-url.com/', /* optional */
 }
 
