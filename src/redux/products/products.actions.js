@@ -1,5 +1,6 @@
 import productTypes from './products.types';
 import axios from '../../utils/axios/axios';
+import s3Upload from '../../utils/s3/s3-upload';
 
 // get products from the server
 export const getAllProducts = () => async (dispatch) => {
@@ -23,8 +24,10 @@ export const getAllProducts = () => async (dispatch) => {
   }
 }
 
-export const addProduct = (product) => async(dispatch) => {
+export const addProduct = (product, files) => async(dispatch) => {
   try {
+    const res = await s3Upload(files[0]);
+    product.image_attributes.push({url: res.location});
     await axios.post('https://mech-api.herokuapp.com/api/v1/products', product);
     // set loading 
     dispatch({

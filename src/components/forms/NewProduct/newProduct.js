@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { getCategories } from '../../../redux/category/category.actions';
 import { getCategorySubcategories} from '../../../redux/category/category.actions';
 
+
 const NewProduct = ({addProduct, categoryState, subCategoryState, getCategories, getCategorySubcategories}) => {
   const {categories, categorySubCategories, loading} = categoryState;
 
@@ -16,6 +17,7 @@ const NewProduct = ({addProduct, categoryState, subCategoryState, getCategories,
   }, []);
 
   let isLoading = false;
+  let files = null;
   const [product, updateProduct] = useState({
     name : '',
     sku : '',
@@ -25,14 +27,7 @@ const NewProduct = ({addProduct, categoryState, subCategoryState, getCategories,
     product_type_id : 1,
     sub_category_id : null,
     category_id : null,
-    images_attributes: [
-      {
-        url: 'https://media.debenhams.com/i/debenhams/23_10_19_womens_dresses_epsp_adspot_5?w=776&h=776&qlt=70&fmt=jpeg&v=1',
-      },
-      {
-        url: 'https://www.rosewe.com/images/201905/goods_img/222314_G_15587932644630.jpg',
-      },
-    ]
+    images_attributes: []
   });
   const handleChange = (e) => {
     const {name, value} = e.target;
@@ -44,7 +39,7 @@ const NewProduct = ({addProduct, categoryState, subCategoryState, getCategories,
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addProduct(product);
+    addProduct(product, files);
   }
 
   const didSelectCategory =(e) => {
@@ -77,10 +72,10 @@ const NewProduct = ({addProduct, categoryState, subCategoryState, getCategories,
   }
 
   const handleFiles = () => {
-    const files = document.getElementById('file').files;
-    console.log('we want to handle files', files)
+    files = document.getElementById('file').files;
   }
 
+  // END S3 UPLOAD HERE -------------------------------------
   return (
     <div>
       <form onSubmit={handleSubmit}>
