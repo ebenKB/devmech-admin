@@ -22,7 +22,9 @@ const nav = () => {
         <li>
           <Link to="/company">Companies</Link>
         </li>
-        <li>Users</li>
+        <li>
+          <Link to="/users">Users</Link>
+        </li>
       </ul>
     </nav>
   )

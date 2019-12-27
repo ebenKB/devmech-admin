@@ -9,10 +9,6 @@ const NewCompany = () => {
     description : '',
   });
 
-  // const createCompany = () => {
-  //   console.log('we want to create a company here');
-  // }
-
   const handleSubmit = (e) => {
     e.preventDefault();
     axios.post('/companies', company)
@@ -35,7 +31,7 @@ const NewCompany = () => {
       <form onSubmit={handleSubmit}>
         <div className="m-t-20">
           <FormGroup
-            labelTag="What is the company?"
+            labelTag="What is the name company?"
             placeholder="Company name"
             label="name"
             name="name"

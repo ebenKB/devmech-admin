@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles/App.scss';
 
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Nav from './components/layout/navigation/nav';
 import Home from './pages/home/home';
 import Header from './components/Header/header';
@@ -14,6 +14,7 @@ import NewCategory from './pages/category/new/new';
 import NewProduct from './components/forms/NewProduct/newProduct';
 import Company from './pages/company/company';
 import NewCompany from './components/forms/NewCompany/newCompany';
+import PageNotFound from './pages/404/pageNotFound';
 
 function App() {
   return (
@@ -25,15 +26,18 @@ function App() {
             <Nav/>
           </div>
           <div className="dev-main">
-            <Route exact path="/" component={Home}/>
-            <Route exact path="/company" component={Company}/>
-            <Route exact path="/companies/new" component={NewCompany}/>
-            <Route exact path="/categories" component={Category}/>
-            <Route exact path="/categories/new" component={NewCategory}/>
-            <Route exact path="/subcategory" component={SubCategory}/>
-            <Route exact path={`/categories/:id/subcategory`} component={NewSubCategory}/>
-            <Route exact path="/products" component={productsPage}/>
-            <Route exact path="/products/new" component={NewProduct}/>
+            <Switch>
+              <Route exact path="/" component={Home}/>
+              <Route exact path="/company" component={Company}/>
+              <Route exact path="/companies/new" component={NewCompany}/>
+              <Route exact path="/categories" component={Category}/>
+              <Route exact path="/categories/new" component={NewCategory}/>
+              <Route exact path="/subcategory" component={SubCategory}/>
+              <Route exact path={`/categories/:id/subcategory`} component={NewSubCategory}/>
+              <Route exact path="/products" component={productsPage}/>
+              <Route exact path="/products/new" component={NewProduct}/>
+              <Route path="*" component={PageNotFound}/>
+            </Switch>
           </div>
           {/* <div>right content or help</div> */}
         </div>
